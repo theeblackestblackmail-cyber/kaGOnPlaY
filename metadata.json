@@ -1,0 +1,6 @@
+{
+  "name": "kaGO.PIaY",
+  "description": "Offline Audio Engine & Free Music Streamer with 5-Band Graphic EQ, Bass Boost, LRC Lyrics Sync, and Local Folder Scanner",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

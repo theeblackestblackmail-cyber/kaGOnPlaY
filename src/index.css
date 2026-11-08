@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-display: "Syne", "Plus Jakarta Sans", sans-serif;
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-cyber-black: #000000;
+  --color-slate-base: #0c0c0e;
+  --color-slate-card: #141418;
+  --color-slate-border: #22222a;
+  --color-slate-hover: #1b1b22;
+  --color-crimson: #ff3e3e;
+  --color-coral: #f43f5e;
+  --color-offwhite: #f2efeb;
+}
+
+:root {
+  color-scheme: dark;
+  font-family: var(--font-sans);
+}
+
+/* Custom glowing effects for synced lyrics and visualizer */
+.lyrics-glow {
+  color: #ff3e3e;
+  text-shadow: 0 0 16px rgba(255, 62, 62, 0.75), 0 0 32px rgba(244, 63, 94, 0.4);
+}
+
+.turntable-rotate {
+  animation: spin 16s linear infinite;
+}
+
+.turntable-paused {
+  animation-play-state: paused;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0c0c0e;
+}
+::-webkit-scrollbar-thumb {
+  background: #25252f;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff3e3e;
+}

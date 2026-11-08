@@ -1,0 +1,17 @@
+apply from: "variables.gradle"
+allprojects {
+    apply from: "$rootDir/variables.gradle"
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty("android")) {
+            project.tasks.matching { it.name.contains("AarMetadata") }.configureEach {
+                enabled = false
+            }
+        }
+    }
+}
