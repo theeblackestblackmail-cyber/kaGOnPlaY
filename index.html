@@ -20,21 +20,47 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+    <script>
+      (function () {
+        function isExternalOrBenignError(msg, stack, filename) {
+          var text = (msg || '') + ' ' + (stack || '') + ' ' + (filename || '');
+          return (
+            text.indexOf('chrome-extension://') !== -1 ||
+            text.indexOf('moz-extension://') !== -1 ||
+            text.indexOf('chrome: call method') !== -1 ||
+            text.indexOf('WebSocket') !== -1
+          );
+        }
+
+        window.addEventListener(
+          'error',
+          function (event) {
+            var stack = event.error && event.error.stack ? event.error.stack : '';
+            if (isExternalOrBenignError(event.message, stack, event.filename)) {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+            }
+          },
+          true
+        );
+
+        window.addEventListener(
+          'unhandledrejection',
+          function (event) {
+            var reason = event.reason;
+            var msg = typeof reason === 'string' ? reason : (reason && reason.message) || '';
+            var stack = reason && reason.stack ? reason.stack : '';
+            if (isExternalOrBenignError(msg, stack, '')) {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+            }
+          },
+          true
+        );
+      })();
+    </script>
   </head>
   <body class="bg-[#000000] text-[#f2efeb] antialiased select-none overflow-x-hidden">
-    <script>
-      // Ignore benign HMR WebSocket errors per AI Studio environment constraints
-      window.addEventListener('error', function (event) {
-        if (event.message && event.message.includes('WebSocket')) {
-          event.stopImmediatePropagation();
-        }
-      });
-      window.addEventListener('unhandledrejection', function (event) {
-        if (event.reason && (String(event.reason).includes('WebSocket') || (event.reason.message && event.reason.message.includes('WebSocket')))) {
-          event.preventDefault();
-        }
-      });
-    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
